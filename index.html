@@ -5,13 +5,22 @@
       <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no" />
       <title>ExploreWKWebViewJavascript</title>
       <script type="text/javascript">
-          function submitForm() {
-              var message = {
-                name: document.getElementById("name").value,
-                email: document.getElementById("email").value
-              };
-              window.webkit.messageHandlers.observer.postMessage(message);
-          }
+        function submitForm() {
+            var message = {
+            name: document.getElementById("name").value,
+            email: document.getElementById("email").value
+            };
+            window.webkit.messageHandlers.observer.postMessage(message);
+        }
+
+        function openOffer(deeplink) {
+            if (CrmAndroidBridge) {
+                CrmAndroidBridge.openOffer(deeplink)
+            } else {
+                window.webkit.messageHandlers.CrmiOSBridge.postMessage({action: "openOffer", deeplink: deeplink})
+            }
+        }
+          
       </script>
   </head>
   <body>
@@ -25,7 +34,7 @@
           <label for="name  ">Name:</label>
           <input type="value" id="name" placeholder="Enter name" name="name">
         </div>
-        <button onclick="submitForm()">Click me</button>
+        <button onclick="openOffer('/credito/contratar')">Click me</button>
     </div>
   </body>
 </html>
